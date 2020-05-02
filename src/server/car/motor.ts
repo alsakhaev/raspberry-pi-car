@@ -8,6 +8,7 @@ export class Motor {
     constructor(forwardPin: number, backwardPin: number) { 
         this._forwardPin = new Gpio(forwardPin, 'out');
         this._backwardPin = new Gpio(backwardPin, 'out');
+        this.stop();
     }
 
     forward() {
