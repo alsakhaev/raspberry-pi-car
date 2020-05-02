@@ -8,7 +8,7 @@ const app = express();
 const server = new Server(app);
 const io = socket(server);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 server.listen(port, () => console.log(`Server listening on port: ${port}`));
 
 app.use(express.static('public'));

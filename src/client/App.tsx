@@ -7,6 +7,31 @@ class App extends React.Component<IAppProps, IAppState> {
 		this.state = {
 			name: null
 		};
+
+		const socket = io.connect('/');
+		document.addEventListener('keydown', function (event) {
+			if (event.code === 'KeyW') {
+				socket.emit('car/driver/forward');
+			} else if (event.code === 'KeyA') {
+				socket.emit('car/driver/left');
+			} else if (event.code === 'KeyS') {
+				socket.emit('car/driver/backward');
+			} else if (event.code === 'KeyD') {
+				socket.emit('car/driver/right');
+			}
+		});
+
+		document.addEventListener('keyup', function (event) {
+			if (event.code === 'KeyW') {
+				socket.emit('car/driver/stop');
+			} else if (event.code === 'KeyA') {
+				socket.emit('car/driver/stop');
+			} else if (event.code === 'KeyS') {
+				socket.emit('car/driver/stop');
+			} else if (event.code === 'KeyD') {
+				socket.emit('car/driver/stop');
+			}
+		});
 	}
 
 	async componentDidMount() {
@@ -14,13 +39,6 @@ class App extends React.Component<IAppProps, IAppState> {
 			let r = await fetch('/api/hello');
 			let name = await r.json();
 			this.setState({ name });
-
-			const socket = io.connect('/');
-			socket.on('news', (data: any) => {
-				console.log(data);
-				socket.emit('my other event', { my: 'data' });
-			});
-
 		} catch (error) {
 			console.log(error);
 		}
