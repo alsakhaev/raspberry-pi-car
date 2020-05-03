@@ -6,8 +6,8 @@ export class Driver {
     private _rightMotor: Motor;
 
     constructor() {
-        this._leftMotor = new Motor(4, 17);
-        this._rightMotor = new Motor(27, 22);
+        this._leftMotor = new Motor(4, 17, 12);
+        this._rightMotor = new Motor(27, 22, 13);
     }
 
     forward() {
