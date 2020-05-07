@@ -1,7 +1,12 @@
 import * as React from 'react';
 import io from 'socket.io-client';
+import WSAvcPlayer from 'h264-live-player';
 
 class App extends React.Component<IAppProps, IAppState> {
+
+	private canvas = React.createRef<HTMLCanvasElement>();
+	private wsavc: any;
+
 	constructor(props: IAppProps) {
 		super(props);
 		this.state = {
@@ -32,6 +37,12 @@ class App extends React.Component<IAppProps, IAppState> {
 				socket.emit('car/driver/stop');
 			}
 		});
+
+		const uri = "ws://" + document.location.host;
+		const wsavc = new WSAvcPlayer(this.canvas, "webgl", 1, 35);
+		wsavc.connect(uri);
+
+		this.wsavc = wsavc;
 	}
 
 	async componentDidMount() {
@@ -48,6 +59,10 @@ class App extends React.Component<IAppProps, IAppState> {
 		return (
 			<main className="container my-5">
 				<h1 className="text-primary text-center">Hello {this.state.name}!</h1>
+				<button type="button" onClick={() => this.wsavc.playStream()}>Start Video</button>
+				<button type="button" onClick={() => this.wsavc.stopStream()}>Stop Video</button>
+				<button type="button" onClick={() => this.wsavc.disconnect()}>Disconnect</button>
+				<canvas ref={this.canvas}/>
 			</main>
 		);
 	}
