@@ -1,17 +1,26 @@
-# Barebones React/TypeScript/Express/Sass Boilerplate
-This project is a starting point for a TypeScript based React app that also has a local API server using express.
+# Raspberry Pi Car
 
-There are 2 different Webpack configurations. One for the server and one for the client.
+A four-wheel drive car based on Raspberry Pi board.
 
-## Server
-The server build process compiles the TypeScript files found in `/src/server` into a single bundled JavaScript file located in the `/dist` directory.
+## Built With
 
-## Client
-The client build process compiles the React app located in `/src/client` into a bundled located at `/public/js/app.js`.
+### Hardware
 
-The client configuration will also build the Sass files found at `/src/client/scss`. The App component imports the `app.scss` file which already includes an import for Bootstrap.
+* Raspberry Pi 3B+
+* Raspberry Pi Camera Module v2
+* L298N Dual H-bridge Motor Driver Board
+* 4WD Car Platform
 
-## Running the project
-In order to run the server, use `npm run dev`, and the server will start on port 3000 (http://localhost:3000). 
+### Software
 
-Webpack will watch the files. Once you save a file, you can refresh your browser to ensure you got the updated client files. If you only change server files, you *shouldn't* need to refresh.
+* [TypeScript](https://www.typescriptlang.org/)
+* [Node.js](https://nodejs.org/)
+* [h264-live-player](https://github.com/131/h264-live-player)
+
+## Authors
+
+* Alexander Sakhaev
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
