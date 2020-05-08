@@ -38,14 +38,16 @@ class App extends React.Component<IAppProps, IAppState> {
 			}
 		});
 
-		const uri = `ws://${document.location.hostname}:8081`;
-		const wsavc = new WSAvcPlayer(this.canvas, "webgl", 1, 35);
-		wsavc.connect(uri);
-
-		this.wsavc = wsavc;
 	}
 
 	async componentDidMount() {
+
+		const uri = `ws://${document.location.hostname}:8081`;
+		const wsavc = new WSAvcPlayer(this.canvas.current, "webgl", 1, 35);
+		wsavc.connect(uri);
+
+		this.wsavc = wsavc;
+
 		try {
 			let r = await fetch('/api/hello');
 			let name = await r.json();
