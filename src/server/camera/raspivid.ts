@@ -64,7 +64,8 @@ export default class RpiServer {
     });
 
     socket.on('close', function () {
-      self.streamer.stdin.end();
+      self.streamer.stdout.pause();
+      self.streamer.kill();
       console.log('stopping client interval');
     });
   }
