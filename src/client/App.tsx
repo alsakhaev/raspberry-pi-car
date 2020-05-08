@@ -38,7 +38,7 @@ class App extends React.Component<IAppProps, IAppState> {
 			}
 		});
 
-		const uri = "ws://" + document.location.host;
+		const uri = `ws://${document.location.hostname}:8081`;
 		const wsavc = new WSAvcPlayer(this.canvas, "webgl", 1, 35);
 		wsavc.connect(uri);
 
