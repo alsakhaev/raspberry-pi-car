@@ -6,43 +6,69 @@ class App extends React.Component<IAppProps, IAppState> {
 
 	private canvas = React.createRef<HTMLCanvasElement>();
 	private wsavc: any;
+	private socket: SocketIOClient.Socket;
+
+	private keyBuffer: { [keyCode: string]: boolean } = {
+		'KeyW': false,
+		'KeyA': false,
+		'KeyS': false,
+		'KeyD': false
+	};
+
+	private lastCmd: number = 0;
 
 	constructor(props: IAppProps) {
 		super(props);
 		this.state = {
 			name: null
 		};
-
-		const socket = io.connect('/');
-		document.addEventListener('keydown', function (event) {
-			if (event.code === 'KeyW') {
-				socket.emit('car/driver/forward');
-			} else if (event.code === 'KeyA') {
-				socket.emit('car/driver/left');
-			} else if (event.code === 'KeyS') {
-				socket.emit('car/driver/backward');
-			} else if (event.code === 'KeyD') {
-				socket.emit('car/driver/right');
-			}
+		
+		document.addEventListener('keydown', ({ code }) => {
+			this.keyBuffer[code] = true;
+			this.updateCarCommand();
 		});
 
-		document.addEventListener('keyup', function (event) {
-			if (event.code === 'KeyW') {
-				socket.emit('car/driver/stop');
-			} else if (event.code === 'KeyA') {
-				socket.emit('car/driver/stop');
-			} else if (event.code === 'KeyS') {
-				socket.emit('car/driver/stop');
-			} else if (event.code === 'KeyD') {
-				socket.emit('car/driver/stop');
-			}
+		document.addEventListener('keyup', ({ code }) => {
+			this.keyBuffer[code] = false;
+			this.updateCarCommand();
 		});
 
+		// camera stream initialization
 		const uri = `ws://${document.location.hostname}:8081`;
-		const wsavc = new WSAvcPlayer(this.canvas, "webgl", 1, 35);
-		wsavc.connect(uri);
+		this.wsavc = new WSAvcPlayer(this.canvas, "webgl", 1, 35);
+		this.wsavc.connect(uri);
 
-		this.wsavc = wsavc;
+		// car driving websocket initialization
+		this.socket = io.connect('/');
+	}
+
+	updateCarCommand() {
+		const buf = this.keyBuffer;
+		const cmd = parseInt([buf['KeyW'], buf['KeyA'], buf['KeyS'], buf['KeyD']].map(x => x ? '1' : '0').join(''), 2);
+		
+		if (this.lastCmd === cmd) return;
+
+		const cmdMap = {
+			0: 'stop',
+			1: 'right',
+			2: 'backward',
+			3: 'backward-right',
+			4: 'left',
+			5: 'stop',
+			6: 'backward-left',
+			7: 'backward',
+			8: 'forward',
+			9: 'forward-right',
+			10: 'stop',
+			11: 'right',
+			12: 'forward-left',
+			13: 'forward',
+			14: 'left',
+			15: 'stop'
+		};
+		
+		this.lastCmd = cmd;
+		this.socket.emit(`car/driver/${cmdMap[cmd]}`);
 	}
 
 	async componentDidMount() {
@@ -62,7 +88,7 @@ class App extends React.Component<IAppProps, IAppState> {
 				<button type="button" onClick={() => this.wsavc.playStream()}>Start Video</button>
 				<button type="button" onClick={() => this.wsavc.stopStream()}>Stop Video</button>
 				<button type="button" onClick={() => this.wsavc.disconnect()}>Disconnect</button>
-				<canvas ref={this.canvas}/>
+				<canvas ref={this.canvas} />
 			</main>
 		);
 	}

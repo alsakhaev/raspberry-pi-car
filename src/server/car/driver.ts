@@ -15,9 +15,29 @@ export class Driver {
         this._rightMotor.forward();
     }
 
+    forwardLeft() {
+        this._leftMotor.stop();
+        this._rightMotor.forward();
+    }
+
+    forwardRight() {
+        this._leftMotor.forward();
+        this._rightMotor.stop();
+    }
+
     backward() {
         this._leftMotor.backward();
         this._rightMotor.backward();
+    }
+
+    backwardLeft() {
+        this._leftMotor.stop();
+        this._rightMotor.backward();
+    }
+
+    backwardRight() {
+        this._leftMotor.backward();
+        this._rightMotor.stop();
     }
 
     left() {
