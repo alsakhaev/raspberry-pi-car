@@ -1,6 +1,5 @@
 import util from 'util';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
-import merge from 'mout/object/merge';
 import { Server as WebSocketServer } from 'ws';
 import Splitter from 'stream-split';
 
@@ -12,13 +11,13 @@ export default class RpiServer {
   wss: WebSocketServer;
   streamer: ChildProcessWithoutNullStreams;
 
-  constructor(server: any, options: any = {}) {
+  constructor(server: any) {
 
-    this.options = merge({
+    this.options = {
       width: 960,
       height: 540,
       fps: 12
-    }, options);
+    };
 
     this.wss = new WebSocketServer({ server });
 
