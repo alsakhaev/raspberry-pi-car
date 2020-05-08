@@ -1,15 +1,16 @@
-const util = require('util');
-const spawn = require('child_process').spawn;
-const merge = require('mout/object/merge');
-const WebSocketServer = require('ws').Server;
-const Splitter = require('stream-split');
+import util from 'util';
+import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
+import merge from 'mout/object/merge';
+import { Server as WebSocketServer } from 'ws';
+import Splitter from 'stream-split';
+
 const NALseparator = new Buffer([0, 0, 0, 1]);//NAL break
 
 export default class RpiServer {
 
-  options: any;
-  wss: any;
-  readStream: any;
+  options: { width: number, height: number, fps: number };
+  wss: WebSocketServer;
+  streamer: ChildProcessWithoutNullStreams;
 
   constructor(server: any, options: any = {}) {
 
@@ -28,16 +29,8 @@ export default class RpiServer {
     this.wss.on('connection', this.new_client);
   }
 
-
-  start_feed() {
-    this.readStream = this.get_feed();
-    this.readStream = this.readStream.pipe(new Splitter(NALseparator));
-    this.readStream.on("data", this.broadcast);
-  }
-
   broadcast(data: any) {
     this.wss.clients.forEach(function (socket: any) {
-
       if (socket.buzy)
         return;
 
@@ -68,24 +61,31 @@ export default class RpiServer {
       if (action == "REQUESTSTREAM")
         self.start_feed();
       if (action == "STOPSTREAM")
-        self.readStream.pause();
+        self.streamer.stdout.pause();
     });
 
     socket.on('close', function () {
-      self.readStream.end();
+      self.streamer.stdin.end();
       console.log('stopping client interval');
     });
+  }
+
+  
+  start_feed() {
+    this.streamer = this.get_feed();
+    const readStream = this.streamer.stdout.pipe(new Splitter(NALseparator));
+    readStream.on("data", this.broadcast);
   }
 
   get_feed() {
     var msk = "raspivid -t 0 -o - -w %d -h %d -fps -rot 180 %d";
     var cmd = util.format(msk, this.options.width, this.options.height, this.options.fps);
     console.log(cmd);
-    var streamer = spawn('raspivid', ['-t', '0', '-o', '-', '-w', this.options.width, '-h', this.options.height, '-fps', this.options.fps, '-rot', '180', '-pf', 'baseline']);
+    var streamer = spawn('raspivid', ['-t', '0', '-o', '-', '-w', this.options.width.toString(), '-h', this.options.height.toString(), '-fps', this.options.fps.toString(), '-rot', '180', '-pf', 'baseline']);
     streamer.on("exit", function (code: any) {
       console.log("Failure", code);
     });
 
-    return streamer.stdout;
+    return streamer;
   }
 };
