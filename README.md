@@ -4,10 +4,18 @@ A four-wheel drive car based on Raspberry Pi board.
 
 ## Built With
 
+### Hardware
+
 * Raspberry Pi 3B+
 * Raspberry Pi Camera Module v2
 * L298N Dual H-bridge Motor Driver Board
 * 4WD Car Platform
+
+### Software
+
+* [https://www.typescriptlang.org/](TypeScript)
+* [Node.js](https://nodejs.org/)
+* [https://github.com/131/h264-live-player](h264-live-player)
 
 ## Authors
 
