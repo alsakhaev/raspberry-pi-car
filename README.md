@@ -13,9 +13,9 @@ A four-wheel drive car based on Raspberry Pi board.
 
 ### Software
 
-* [https://www.typescriptlang.org/](TypeScript)
+* [TypeScript](https://www.typescriptlang.org/)
 * [Node.js](https://nodejs.org/)
-* [https://github.com/131/h264-live-player](h264-live-player)
+* [h264-live-player](https://github.com/131/h264-live-player)
 
 ## Authors
 
