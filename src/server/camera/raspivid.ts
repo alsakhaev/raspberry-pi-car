@@ -9,26 +9,21 @@ const Server    = require('./_server');
 
 export default class RpiServer extends Server {
 
-  constructor(server, opts) {
+  constructor(server: any, opts?: any) {
     super(server, merge({
       fps : 12,
     }, opts));
   }
 
   get_feed() {
-    var msk = "raspivid -t 0 -o - -w %d -h %d -fps %d";
+    var msk = "raspivid -t 0 -o - -w %d -h %d -fps -rot 180 %d";
     var cmd = util.format(msk, this.options.width, this.options.height, this.options.fps);
     console.log(cmd);
-    var streamer = spawn('raspivid', ['-t', '0', '-o', '-', '-w', this.options.width, '-h', this.options.height, '-fps', this.options.fps, '-pf', 'baseline']);
-    streamer.on("exit", function(code){
+    var streamer = spawn('raspivid', ['-t', '0', '-o', '-', '-w', this.options.width, '-h', this.options.height, '-fps', this.options.fps, '-rot', '180', '-pf', 'baseline']);
+    streamer.on("exit", function(code: any){
       console.log("Failure", code);
     });
 
     return streamer.stdout;
   }
-
 };
-
-
-
-//module.exports = RpiServer;

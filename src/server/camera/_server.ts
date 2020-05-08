@@ -8,9 +8,12 @@ const merge           = require('mout/object/merge');
 const NALseparator    = new Buffer([0,0,0,1]);//NAL break
 
 
-class _Server {
+export default class _Server {
+  options: any;
+  wss: any;
+  readStream: any;
 
-  constructor(server, options) {
+  constructor(server: any, options: any) {
 
     this.options = merge({
         width : 960,
@@ -28,19 +31,17 @@ class _Server {
   
 
   start_feed() {
-    var readStream = this.get_feed();
-    this.readStream = readStream;
-
-    readStream = readStream.pipe(new Splitter(NALseparator));
-    readStream.on("data", this.broadcast);
+    this.readStream = this.get_feed();
+    this.readStream = this.readStream.pipe(new Splitter(NALseparator));
+    this.readStream.on("data", this.broadcast);
   }
 
   get_feed() {
     throw new Error("to be implemented");
   }
 
-  broadcast(data) {
-    this.wss.clients.forEach(function(socket) {
+  broadcast(data: any) {
+    this.wss.clients.forEach(function(socket: any) {
 
       if(socket.buzy)
         return;
@@ -48,13 +49,13 @@ class _Server {
       socket.buzy = true;
       socket.buzy = false;
 
-      socket.send(Buffer.concat([NALseparator, data]), { binary: true}, function ack(error) {
+      socket.send(Buffer.concat([NALseparator, data]), { binary: true}, function ack(error: any) {
         socket.buzy = false;
       });
     });
   }
 
-  new_client(socket) {
+  new_client(socket: any) {
   
     var self = this;
     console.log('New guy');
@@ -65,7 +66,7 @@ class _Server {
       height : this.options.height,
     }));
 
-    socket.on("message", function(data){
+    socket.on("message", function(data: any){
       var cmd = "" + data, action = data.split(' ')[0];
       console.log("Incomming action '%s'", action);
 
@@ -80,9 +81,4 @@ class _Server {
       console.log('stopping client interval');
     });
   }
-
-
 };
-
-
-module.exports = _Server;

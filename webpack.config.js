@@ -55,7 +55,10 @@ const clientConfig = {
       ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js', '.css', '.scss']
+        extensions: ['.tsx', '.ts', '.js', '.css', '.scss'],
+        alias: {
+            'fs': path.resolve(__dirname, 'src/client/fsFake.js')
+        }
     },
     output: {
         filename: 'app.js',

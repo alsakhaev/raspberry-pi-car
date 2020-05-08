@@ -6,8 +6,9 @@
   "scripts": {
     "watch:build": "webpack -w",
     "watch:server": "nodemon dist/server.js",
-    "dev": "npm-run-all --parallel watch:*",
-    "start": "node dist/server.js"
+    "start": "npm-run-all --parallel watch:*",
+    "build": "webpack",
+    "start:prod": "npm run build && node dist/server.js"
   },
   "keywords": [],
   "author": "",
