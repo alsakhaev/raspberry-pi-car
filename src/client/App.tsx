@@ -22,7 +22,7 @@ class App extends React.Component<IAppProps, IAppState> {
 		this.state = {
 			name: null
 		};
-		
+
 		document.addEventListener('keydown', ({ code }) => {
 			this.keyBuffer[code] = true;
 			this.updateCarCommand();
@@ -45,10 +45,10 @@ class App extends React.Component<IAppProps, IAppState> {
 	updateCarCommand() {
 		const buf = this.keyBuffer;
 		const cmd = parseInt([buf['KeyW'], buf['KeyA'], buf['KeyS'], buf['KeyD']].map(x => x ? '1' : '0').join(''), 2);
-		
+
 		if (this.lastCmd === cmd) return;
 
-		const cmdMap = {
+		const cmdMap: { [cmd: number]: string } = {
 			0: 'stop',
 			1: 'right',
 			2: 'backward',
@@ -66,12 +66,19 @@ class App extends React.Component<IAppProps, IAppState> {
 			14: 'left',
 			15: 'stop'
 		};
-		
+
 		this.lastCmd = cmd;
 		this.socket.emit(`car/driver/${cmdMap[cmd]}`);
 	}
 
 	async componentDidMount() {
+
+		const uri = `ws://${document.location.hostname}:8081`;
+		const wsavc = new WSAvcPlayer(this.canvas.current, "webgl", 1, 35);
+		wsavc.connect(uri);
+
+		this.wsavc = wsavc;
+
 		try {
 			let r = await fetch('/api/hello');
 			let name = await r.json();

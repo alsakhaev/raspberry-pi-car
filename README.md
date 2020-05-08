@@ -2,6 +2,12 @@
 
 A four-wheel drive car based on Raspberry Pi board.
 
+## Building
+
+1. Clone repo
+2. `npm install` to install all dependencies
+3. `npm run start:prod` to build and run production bundle or `npm run start` to run watch development mode
+
 ## Built With
 
 ### Hardware
@@ -23,4 +29,4 @@ A four-wheel drive car based on Raspberry Pi board.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details

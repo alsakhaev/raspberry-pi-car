@@ -16,7 +16,7 @@ export default class RpiServer {
     this.options = {
       width: 960,
       height: 540,
-      fps: 12
+      fps: 24
     };
 
     this.wss = new WebSocketServer({ server });
