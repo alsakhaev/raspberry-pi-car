@@ -11,7 +11,7 @@ export default class RpiServer {
   wss: any;
   readStream: any;
 
-  constructor(server: any, options: any) {
+  constructor(server: any, options: any = {}) {
 
     this.options = merge({
       width: 960,
