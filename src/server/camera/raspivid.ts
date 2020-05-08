@@ -1,7 +1,7 @@
 import * as util from 'util';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import { Server as WebSocketServer } from 'ws';
-import { Splitter } from 'stream-split';
+const Splitter = require('stream-split');
 
 const NALseparator = new Buffer([0, 0, 0, 1]);//NAL break
 
