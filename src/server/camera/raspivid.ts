@@ -1,4 +1,4 @@
-import util from 'util';
+import * as util from 'util';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import { Server as WebSocketServer } from 'ws';
 import Splitter from 'stream-split';
