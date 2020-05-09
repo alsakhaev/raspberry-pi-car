@@ -2,7 +2,24 @@
 
 A four-wheel drive car based on Raspberry Pi board.
 
-## Building
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+Install and run [rpi-webrtc-streamer](https://github.com/kclyu/rpi-webrtc-streamer) for camera streaming via WebRTC.
+
+You can use deb packages from [this repository](https://github.com/kclyu/rpi-webrtc-streamer-deb).
+
+```
+sudo apt update
+sudo apt full-upgrade
+sudo dpkg -i rws_xxx_armhf.deb
+sudo systemctl start rws
+```
+
+### Installing
 
 1. Clone repo
 2. `npm install` to install all dependencies
@@ -21,7 +38,7 @@ A four-wheel drive car based on Raspberry Pi board.
 
 * [TypeScript](https://www.typescriptlang.org/)
 * [Node.js](https://nodejs.org/)
-* [h264-live-player](https://github.com/131/h264-live-player)
+* [rpi-webrtc-streamer](https://github.com/kclyu/rpi-webrtc-streamer)
 
 ## Authors
 
@@ -29,4 +46,4 @@ A four-wheel drive car based on Raspberry Pi board.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
