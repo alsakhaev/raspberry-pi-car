@@ -3,7 +3,8 @@ import apiRouter from './routes';
 import * as socket from 'socket.io';
 import { Server } from 'http';
 import { socket as socketRouter } from './socket';
-//import RpiServer from './camera/raspivid';
+import RpiServer from './camera/raspivid';
+// import geckos from '@geckos.io/server';
 
 function runCarServer() {
     const app = express();
@@ -22,13 +23,13 @@ function runCarServer() {
     app.use(express.static('public'));
 }
 
-// function runCameraServer() {
-//     const app = express();
-//     const server = new Server(app);
-//     const silent = new RpiServer(server);
-//     const port = 8081;
-//     server.listen(port, () => console.log(`Camera server listening on port: ${port}`));    
-// }
+function runCameraServer() {
+    // const app = express();
+    // const server = new Server(app);
+    const silent = new RpiServer();
+    // const port = 8081;
+    // server.listen(port, () => console.log(`Camera server listening on port: ${port}`));    
+}
 
 runCarServer();
-//runCameraServer();
+runCameraServer();

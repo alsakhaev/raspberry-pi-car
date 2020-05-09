@@ -2,16 +2,18 @@ import * as util from 'util';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import { Server as WebSocketServer } from 'ws';
 const Splitter = require('stream-split');
+import geckos, { GeckosServer } from '@geckos.io/server';
 
 const NALseparator = new Buffer([0, 0, 0, 1]);//NAL break
 
 export default class RpiServer {
 
   options: { width: number, height: number, fps: number };
-  wss: WebSocketServer;
+  io: GeckosServer;
   streamer: ChildProcessWithoutNullStreams;
+  rooms: string[] = [];
 
-  constructor(server: any) {
+  constructor() {
 
     this.options = {
       width: 960,
@@ -19,51 +21,52 @@ export default class RpiServer {
       fps: 24
     };
 
-    this.wss = new WebSocketServer({ server });
+    this.io = geckos();
+    this.io.listen(3000);
 
     this.new_client = this.new_client.bind(this);
     this.start_feed = this.start_feed.bind(this);
     this.broadcast = this.broadcast.bind(this);
 
-    this.wss.on('connection', this.new_client);
+    this.io.on('connection', this.new_client);
   }
 
   broadcast(data: any) {
-    this.wss.clients.forEach(function (socket: any) {
-      if (socket.buzy)
-        return;
+    this.rooms.forEach((roomId) => {
+      // if (socket.buzy)
+      //   return;
 
-      socket.buzy = true;
-      socket.buzy = false;
+      // socket.buzy = true;
+      // socket.buzy = false;
 
-      socket.send(Buffer.concat([NALseparator, data]), { binary: true }, function ack(error: any) {
-        socket.buzy = false;
-      });
+      this.io.room(roomId).emit('message', Buffer.concat([NALseparator, data]));
     });
   }
 
-  new_client(socket: any) {
+  new_client(channel) {
 
     var self = this;
     console.log('New guy');
 
-    socket.send(JSON.stringify({
+    this.rooms.push(channel.roomId);
+
+    this.io.room(channel.roomId).emit('message', JSON.stringify({
       action: "init",
       width: this.options.width,
       height: this.options.height,
     }));
 
-    socket.on("message", function (data: any) {
+    this.io.on("message", function (data: any) {
       var cmd = "" + data, action = data.split(' ')[0];
       console.log("Incomming action '%s'", action);
 
-      if (action == "REQUESTSTREAM")
+      if (data == "REQUESTSTREAM")
         self.start_feed();
-      if (action == "STOPSTREAM")
+      if (data == "STOPSTREAM")
         self.streamer.stdout.pause();
     });
 
-    socket.on('close', function () {
+    this.io.on('close', function () {
       self.streamer.stdout.pause();
       self.streamer.kill();
       console.log('stopping client interval');

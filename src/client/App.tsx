@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 //import WSAvcPlayer from 'h264-live-player';
 import { WebSocketSignalingChannel } from './webrtc/websocket_signaling';
 import './scss/app';
+import geckos from '@geckos.io/client';
 
 const hostname = document.location.hostname;
 const carWsApi = `ws://${hostname}:8080`;
@@ -41,7 +42,7 @@ class App extends React.Component<IAppProps, IAppState> {
 		});
 
 		// car driving websocket initialization
-		this.socket = io.connect(carWsApi);
+		//this.socket = io.connect(carWsApi);
 	}
 
 	updateCarCommand() {
@@ -81,7 +82,23 @@ class App extends React.Component<IAppProps, IAppState> {
 
 		// this.wsavc = wsavc;
 
-		this.wsSignalingChannel = new WebSocketSignalingChannel(this.video.current, cameraWsApi);	
+		//this.wsSignalingChannel = new WebSocketSignalingChannel(this.video.current, cameraWsApi);
+
+		const channel = geckos({ port: 3000 }) // default port is 9208
+
+		channel.onConnect(error => {
+			if (error) {
+				console.error(error.message)
+				return
+			}
+
+			channel.on('message', data => {
+				console.log(`You got the message ${data}`)
+				channel.emit('message', 'REQUESTSTREAM');
+			})
+
+			
+		})
 	}
 
 	render() {

@@ -1,5 +1,5 @@
-import { Gpio } from 'onoff';
-//import { Gpio } from './gpioFake';
+//import { Gpio } from 'onoff';
+import { Gpio } from './gpioFake';
 
 export class Motor {
 
