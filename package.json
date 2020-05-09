@@ -8,7 +8,8 @@
     "watch:server": "nodemon dist/server.js",
     "start": "npm-run-all --parallel watch:*",
     "build": "webpack",
-    "start:prod": "npm run build && node dist/server.js"
+    "start:prod": "npm run build && node dist/server.js",
+    "start:client": "CLIENT_ONLY=true npm run start"
   },
   "keywords": [],
   "author": "",

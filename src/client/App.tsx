@@ -2,12 +2,16 @@ import * as React from 'react';
 import io from 'socket.io-client';
 //import WSAvcPlayer from 'h264-live-player';
 import { WebSocketSignalingChannel } from './webrtc/websocket_signaling';
+import './scss/app';
+
+const hostname = document.location.hostname;
+const carWsApi = `ws://${hostname}:8080`;
+const cameraWsApi = `ws://${hostname}:8889/rws/ws`
 
 class App extends React.Component<IAppProps, IAppState> {
 
 	private canvas = React.createRef<HTMLCanvasElement>();
 	private video = React.createRef<HTMLVideoElement>();
-	private wsavc: any;
 	private wsSignalingChannel: WebSocketSignalingChannel;
 	private socket: SocketIOClient.Socket;
 
@@ -37,7 +41,7 @@ class App extends React.Component<IAppProps, IAppState> {
 		});
 
 		// car driving websocket initialization
-		this.socket = io.connect('/');
+		this.socket = io.connect(carWsApi);
 	}
 
 	updateCarCommand() {
@@ -76,33 +80,21 @@ class App extends React.Component<IAppProps, IAppState> {
 		// wsavc.connect(uri);
 
 		// this.wsavc = wsavc;
-		const wsUrl = `ws://${document.location.hostname}:8889/rws/ws`;
-		this.wsSignalingChannel = new WebSocketSignalingChannel(this.video.current, wsUrl);
 
-		try {
-			let r = await fetch('/api/hello');
-			let name = await r.json();
-			this.setState({ name });
-		} catch (error) {
-			console.log(error);
-		}
+		this.wsSignalingChannel = new WebSocketSignalingChannel(this.video.current, cameraWsApi);	
 	}
 
 	render() {
 		return (
 			<main className="container my-5">
-				<h1 className="text-primary text-center">Hello {this.state.name}!</h1>
+				{/* <h1 className="text-primary text-center">Hello {this.state.name}!</h1> */}
 				<div>
-					<video ref={this.video} autoPlay playsInline muted ></video>
+					<video className="video" ref={this.video} autoPlay playsInline muted ></video>
 				</div>
 
 				<div>
 					<button type="button" onClick={() => this.wsSignalingChannel.doSignalingConnect()}>Connect</button>
 					<button type="button" onClick={() => this.wsSignalingChannel.doSignalingDisconnnect()}>Disconnect</button>
-
-					<button type="button" onClick={() => this.wsavc.playStream()}>Start Video</button>
-					<button type="button" onClick={() => this.wsavc.stopStream()}>Stop Video</button>
-					<button type="button" onClick={() => this.wsavc.disconnect()}>Disconnect</button>
 				</div>
 				<canvas ref={this.canvas} />
 			</main>

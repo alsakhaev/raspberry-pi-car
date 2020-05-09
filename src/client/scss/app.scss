@@ -3,3 +3,8 @@ $theme-colors: (
 );
 
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+
+.video {
+    width: 100%;
+    background-color: #000;
+}
