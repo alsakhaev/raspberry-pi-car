@@ -13,3 +13,47 @@
   height: 50px;
   margin-right: 100px;
 }
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.rotateMode{
+  border-radius: 50%;
+  width: 100%;
+  /* height: 125px; */
+  background-color: gray;
+  color:white;
+  position:absolute;
+  /* USE FLEXBOX */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.btn {
+  width: 125px;
+  height: 125px;
+}
+
+.top,
+.middle,
+.bottom {
+  display: flex;
+  flex-direction: row;
+}
+
+.top,
+.bottom {
+  justify-content: center;
+}
+
+.middle {
+  justify-content: space-between;
+}

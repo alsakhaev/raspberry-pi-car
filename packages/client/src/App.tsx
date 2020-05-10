@@ -10,7 +10,6 @@ const cameraWsApi = `ws://${hostname}:8889/rws/ws`
 
 class App extends React.Component<IAppProps, any> {
 
-	private canvas = React.createRef<HTMLCanvasElement>();
 	private video = React.createRef<HTMLVideoElement>();
 	private wsSignalingChannel?: WebSocketSignalingChannel;
 	private socket: SocketIOClient.Socket;
@@ -92,25 +91,20 @@ class App extends React.Component<IAppProps, any> {
 					<video className="video" ref={this.video} autoPlay playsInline muted ></video>
 				</div>
 
-				<div>
-					<span>{(this.state.cameraOpened ? "Connected" : "Disconnected")}</span>
-					<button type="button" onClick={() => this.wsSignalingChannel?.doSignalingConnect()}>Connect</button>
-					<button type="button" onClick={() => this.wsSignalingChannel?.doSignalingDisconnnect()}>Disconnect</button>
+				<div className='circleBase rotateMode'>
+					<div className="top">
+						<button className="btn noselect" onTouchStart={() => this.sendCarCommand('forward')} onTouchEnd={() => this.sendCarCommand('stop')}>Forward</button>
+					</div>
+
+					<div className="middle">
+						<button className="btn noselect" onTouchStart={() => this.sendCarCommand('left')} onTouchEnd={() => this.sendCarCommand('stop')}>Left</button>
+						<button className="btn noselect" onTouchStart={() => this.sendCarCommand('right')} onTouchEnd={() => this.sendCarCommand('stop')}>Right</button>
+					</div>
+
+					<div className="bottom">
+						<button className="btn noselect" onTouchStart={() => this.sendCarCommand('backward')} onTouchEnd={() => this.sendCarCommand('stop')}>Backward</button>
+					</div>
 				</div>
-				<div>
-					Speed
-					<input type="range" value={this.state.speed} min="0" max="100" onChange={(e) => (this.setState({ speed: e.target.value }))} />
-				</div>
-				<div>
-					<button className="controlButton" type="button" onTouchStart={() => this.sendCarCommand('forward')} onTouchEnd={() => this.sendCarCommand('stop')}>Forward</button></div>
-				<div>
-					<button className="controlButton2" type="button" onTouchStart={() => this.sendCarCommand('left')} onTouchEnd={() => this.sendCarCommand('stop')}>Left</button>
-					<button className="controlButton2" type="button" onTouchStart={() => this.sendCarCommand('right')} onTouchEnd={() => this.sendCarCommand('stop')}>Right</button>
-				</div>
-				<div>
-					<button className="controlButton" type="button" onTouchStart={() => this.sendCarCommand('backward')} onTouchEnd={() => this.sendCarCommand('stop')}>Backward</button>
-				</div>
-				<canvas ref={this.canvas} />
 			</main>
 		);
 	}
