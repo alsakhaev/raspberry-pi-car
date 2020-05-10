@@ -10,44 +10,44 @@ export class Driver {
         this._rightMotor = new Motor(4, 17, 12);
     }
 
-    forward() {
-        this._leftMotor.forward();
-        this._rightMotor.forward();
+    forward(speed: number = 100) {
+        this._leftMotor.forward(speed);
+        this._rightMotor.forward(speed);
     }
 
-    forwardLeft() {
+    forwardLeft(speed: number = 100) {
         this._leftMotor.stop();
-        this._rightMotor.forward();
+        this._rightMotor.forward(speed);
     }
 
-    forwardRight() {
-        this._leftMotor.forward();
+    forwardRight(speed: number = 100) {
+        this._leftMotor.forward(speed);
         this._rightMotor.stop();
     }
 
-    backward() {
-        this._leftMotor.backward();
-        this._rightMotor.backward();
+    backward(speed: number = 100) {
+        this._leftMotor.backward(speed);
+        this._rightMotor.backward(speed);
     }
 
-    backwardLeft() {
+    backwardLeft(speed: number = 100) {
         this._leftMotor.stop();
-        this._rightMotor.backward();
+        this._rightMotor.backward(speed);
     }
 
-    backwardRight() {
-        this._leftMotor.backward();
+    backwardRight(speed: number = 100) {
+        this._leftMotor.backward(speed);
         this._rightMotor.stop();
     }
 
-    left() {
-        this._leftMotor.backward();
-        this._rightMotor.forward();
+    left(speed: number = 100) {
+        this._leftMotor.backward(speed);
+        this._rightMotor.forward(speed);
     }
 
-    right() {
-        this._leftMotor.forward();
-        this._rightMotor.backward();
+    right(speed: number = 100) {
+        this._leftMotor.forward(speed);
+        this._rightMotor.backward(speed);
     }
 
     stop() {

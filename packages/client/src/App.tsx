@@ -26,7 +26,8 @@ class App extends React.Component<IAppProps, any> {
 	constructor(props: IAppProps) {
 		super(props);
 		this.state = {
-			name: null
+			name: null,
+			speed: 100
 		};
 
 		document.addEventListener('keydown', ({ code }) => {
@@ -69,7 +70,7 @@ class App extends React.Component<IAppProps, any> {
 		};
 
 		this.lastCmd = cmd;
-		this.socket.emit(`car/driver/${cmdMap[cmd]}`);
+		this.socket.emit(`car/driver/${cmdMap[cmd]}`, this.state.speed);
 	}
 
 	async componentDidMount() {
@@ -86,6 +87,10 @@ class App extends React.Component<IAppProps, any> {
 				<div>
 					<button type="button" onClick={() => this.wsSignalingChannel?.doSignalingConnect()}>Connect</button>
 					<button type="button" onClick={() => this.wsSignalingChannel?.doSignalingDisconnnect()}>Disconnect</button>
+				</div>
+				<div>
+					Speed
+					<input type="range" value={this.state.speed} min="0" max="100" onChange={(e) => (this.setState({ speed: e.target.value }))}/>
 				</div>
 				<canvas ref={this.canvas} />
 			</main>

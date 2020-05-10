@@ -1,5 +1,4 @@
 import express from 'express';
-import apiRouter from './routes';
 import socket from 'socket.io';
 import { Server } from 'http';
 import { socket as socketRouter } from './socket';
@@ -13,5 +12,4 @@ server.listen(8081);
 
 io.origins('*:*');
 app.use(cors());
-app.use(apiRouter);
 socketRouter(io);
