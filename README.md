@@ -32,19 +32,17 @@ Install all NPM dependencies
 npm install
 ```
 
-Run [pigpio](https://github.com/fivdi/pigpio) daemon at 8082 port
-```
-sudo pigpiod -p 8082
-```
+The pigpio C library and therefore the pigpio Node.js package requires root/sudo privileges to access hardware peripherals.
+You can find more information about it at [the page of pigpio library](https://github.com/fivdi/pigpio).
 
 Build and run production bundle
 ```
-npm run start:prod
+sudo npm run start:prod
 ```
 
 Or build and run development bundle in watching mode
 ```
-npm run start
+sudo npm run start
 ```
 
 ### Port Forwarding
