@@ -1,4 +1,7 @@
+import pigpio from 'pigpio';
 import { Gpio } from 'pigpio';
+
+pigpio.configureSocketPort(8082);
 
 export class Motor {
 
