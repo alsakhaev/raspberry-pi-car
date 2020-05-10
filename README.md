@@ -25,6 +25,18 @@ sudo systemctl start rws
 2. `npm install` to install all dependencies
 3. `npm run start:prod` to build and run production bundle or `npm run start` to run watch development mode
 
+### Port Forwarding
+
+For external remote control via Internet, probably you will need to configure port forwarding in your router. The following table describes ports using and its purposes.
+
+| Port | Description                         |
+| ---- | ----------------------------------- |
+| 8080 | Web client                          |
+| 8081 | Node.js based API                   |
+| 8888 | WebRTC Streaming Direct Port of RWS |
+| 8889 | WebSocket signaling server of RWS   |
+
+
 ## Built With
 
 ### Hardware
