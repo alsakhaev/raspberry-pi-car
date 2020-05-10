@@ -91,6 +91,16 @@ class App extends React.Component<IAppProps, any> {
 					<video className="video" ref={this.video} autoPlay playsInline muted ></video>
 				</div>
 
+				<div>
+					<span>{(this.state.cameraOpened ? "Connected" : "Disconnected")}</span>
+					<button type="button" onClick={() => this.wsSignalingChannel?.doSignalingConnect()}>Connect</button>
+					<button type="button" onClick={() => this.wsSignalingChannel?.doSignalingDisconnnect()}>Disconnect</button>
+				</div>
+				<div>
+					Speed
+					<input type="range" value={this.state.speed} min="0" max="100" onChange={(e) => (this.setState({ speed: e.target.value }))} />
+				</div>
+
 				<div className='circleBase rotateMode'>
 					<div className="top">
 						<button className="btn noselect" onTouchStart={() => this.sendCarCommand('forward')} onTouchEnd={() => this.sendCarCommand('stop')}>Forward</button>
