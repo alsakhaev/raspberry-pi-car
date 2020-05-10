@@ -7,6 +7,9 @@
     "install:server": "cd packages/server && npm i",
     "start": "npm run start:client | npm run start:server",
     "start:client": "cd packages/client && npm start",
-    "start:server": "cd packages/server && npm start"
+    "start:server": "cd packages/server && npm start",
+    "start:prod": "npm run start:client:prod | npm run start:server:prod",
+    "start:client:prod": "cd packages/client && npm run start:prod",
+    "start:server:prod": "cd packages/server && npm run start:prod"
   }
 }
