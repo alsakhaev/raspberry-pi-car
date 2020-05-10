@@ -103,7 +103,6 @@ export function setDefaultCodecAndRemoveOthers(sdpLines: any, mLine: any, payloa
 	// Just copy the first three parameters; codec order starts on fourth.
 	var newLine = elements.slice(0, 3);
 
-
 	// Put target payload first and copy in the rest.
 	newLine.push(payload);
 	for (var i = 3; i < elements.length; i++) {

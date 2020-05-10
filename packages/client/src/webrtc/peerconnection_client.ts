@@ -127,7 +127,7 @@ export class PeerConnectionClient {
         ++this.messageCounter_;
         var dataJson = JSON.parse(data);
         trace("onReceived Message Type :" + dataJson['type']);
-        if (dataJson["type"] == "offer") {        // Processing offer
+        if (dataJson["type"] === "offer") {        // Processing offer
             trace("Offer from PeerConnection");
             var sdp_returned = forceChosenVideoCodec(dataJson.sdp, 'H264/90000');
             dataJson.sdp = sdp_returned;
@@ -141,7 +141,7 @@ export class PeerConnectionClient {
                 .then(this.setLocalSdpAndSend_.bind(this))
                 .catch(this.onError_.bind(this, 'createAnswer'));
         }
-        else if (dataJson["type"] == "candidate") {    // Processing candidate
+        else if (dataJson["type"] === "candidate") {    // Processing candidate
             var ice_candidate = new RTCIceCandidate({
                 sdpMLineIndex: dataJson.label,
                 sdpMid: dataJson.id,

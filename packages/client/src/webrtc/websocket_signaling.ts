@@ -39,7 +39,7 @@ export class WebSocketSignalingChannel {
         trace("WSS -> C: " + event.data);
 
         var dataJson = JSON.parse(event.data);
-        if (dataJson["cmd"] == "send") {
+        if (dataJson["cmd"] === "send") {
             this.peerConnectionClient_?.onReceivePeerMessage(dataJson["msg"]);
         }
     };
@@ -50,8 +50,8 @@ export class WebSocketSignalingChannel {
     };
 
     webSocketSendMessage(message: string) {
-        if (this.websocket_?.readyState == WebSocket.OPEN ||
-            this.websocket_?.readyState == WebSocket.CONNECTING) {
+        if (this.websocket_?.readyState === WebSocket.OPEN ||
+            this.websocket_?.readyState === WebSocket.CONNECTING) {
             trace("C --> WSS: " + message);
             this.websocket_?.send(message);
             return true;
@@ -101,7 +101,7 @@ export class WebSocketSignalingChannel {
     };
 
     doSignalingDisconnnect() {
-        if (this.websocket_?.readyState == 1) {
+        if (this.websocket_?.readyState === 1) {
             this.websocket_?.close();
         };
     };
