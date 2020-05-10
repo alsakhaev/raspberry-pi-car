@@ -21,9 +21,26 @@ sudo systemctl start rws
 
 ### Installing
 
-1. Clone repo
-2. `npm install` to install all dependencies
-3. `npm run start:prod` to build and run production bundle or `npm run start` to run watch development mode
+Clone this repo to your Raspberry Pi
+```
+git clone https://github.com/alsakhaev/raspberry-pi-car.git
+cd raspberry-pi-car
+```
+
+Install all NPM dependencies
+```
+npm install
+```
+
+Build and run production bundle
+```
+npm run start:prod
+```
+
+Or build and run development bundle in watching mode
+```
+npm run start
+```
 
 ### Port Forwarding
 
@@ -36,6 +53,10 @@ For external remote control via Internet, probably you will need to configure po
 | 8888 | WebRTC Streaming Direct Port of RWS |
 | 8889 | WebSocket signaling server of RWS   |
 
+## Project Structure
+
+- `packages/client` - React.js based web client
+- `packages/server` - Node.js based WebSocket API for car control
 
 ## Built With
 
