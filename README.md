@@ -32,6 +32,11 @@ Install all NPM dependencies
 npm install
 ```
 
+Run [pigpio](https://github.com/fivdi/pigpio) daemon at 8082 port
+```
+sudo pigpiod -p 8082
+```
+
 Build and run production bundle
 ```
 npm run start:prod
@@ -72,6 +77,7 @@ For external remote control via Internet, probably you will need to configure po
 * [TypeScript](https://www.typescriptlang.org/)
 * [Node.js](https://nodejs.org/)
 * [rpi-webrtc-streamer](https://github.com/kclyu/rpi-webrtc-streamer)
+* [pigpio](https://github.com/fivdi/pigpio)
 
 ## Authors
 
