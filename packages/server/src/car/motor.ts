@@ -37,6 +37,7 @@ export class Motor {
     }
 
     private _toDutyCycle(percent: number) {
+        // 0 => 750000
         if (percent < 0) percent = 0;
         if (percent > 100) percent = 100;
         return Math.round(percent * 10000);

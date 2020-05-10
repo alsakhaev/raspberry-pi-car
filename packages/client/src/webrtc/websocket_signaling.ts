@@ -6,6 +6,9 @@ export class WebSocketSignalingChannel {
     wsPath_: any;
     websocket_?: WebSocket;
     peerConnectionClient_?: PeerConnectionClient | null;
+    
+    onopen?: Function;
+    onclose?: Function;
 
     constructor(remoteVideo: any, wsPath: string) {
         this.remoteVideo_ = remoteVideo;
@@ -26,6 +29,7 @@ export class WebSocketSignalingChannel {
     onWebSocketOpen_(event: Event) {
         trace("Websocket connnected: " + this.websocket_?.url);
         this.doSignalingRegister();
+        this.onopen?.();
     };
 
     onWebSocketClose_(event: CloseEvent) {
@@ -33,6 +37,7 @@ export class WebSocketSignalingChannel {
         this.doSignalingDisconnnect();
         this.peerConnectionClient_?.close();
         this.peerConnectionClient_ = null;
+        this.onclose?.();
     };
 
     onWebSocketMessage_(event: MessageEvent) {

@@ -2,8 +2,9 @@ import * as React from 'react';
 import io from 'socket.io-client';
 //import WSAvcPlayer from 'h264-live-player';
 import { WebSocketSignalingChannel } from './webrtc/websocket_signaling';
+import './App.css';
 
-const hostname = document.location.hostname;
+const hostname = '192.168.100.221'; //document.location.hostname;
 const carWsApi = `ws://${hostname}:8081`;
 const cameraWsApi = `ws://${hostname}:8889/rws/ws`
 
@@ -27,7 +28,8 @@ class App extends React.Component<IAppProps, any> {
 		super(props);
 		this.state = {
 			name: null,
-			speed: 100
+			speed: 100,
+			cameraOpened: false
 		};
 
 		document.addEventListener('keydown', ({ code }) => {
@@ -70,27 +72,43 @@ class App extends React.Component<IAppProps, any> {
 		};
 
 		this.lastCmd = cmd;
-		this.socket.emit(`car/driver/${cmdMap[cmd]}`, this.state.speed);
+		this.sendCarCommand(cmdMap[cmd]);
+	}
+
+	sendCarCommand(cmd: string) {
+		this.socket.emit(`car/driver/${cmd}`, this.state.speed);
 	}
 
 	async componentDidMount() {
-		this.wsSignalingChannel = new WebSocketSignalingChannel(this.video.current, cameraWsApi);	
+		this.wsSignalingChannel = new WebSocketSignalingChannel(this.video.current, cameraWsApi);
+		this.wsSignalingChannel.onopen = () => this.setState({ cameraOpened: true });
+		this.wsSignalingChannel.onclose = () => this.setState({ cameraOpened: false });
 	}
 
 	render() {
 		return (
-			<main className="container my-5">
+			<main>
 				<div>
 					<video className="video" ref={this.video} autoPlay playsInline muted ></video>
 				</div>
 
 				<div>
+					<span>{(this.state.cameraOpened ? "Connected" : "Disconnected")}</span>
 					<button type="button" onClick={() => this.wsSignalingChannel?.doSignalingConnect()}>Connect</button>
 					<button type="button" onClick={() => this.wsSignalingChannel?.doSignalingDisconnnect()}>Disconnect</button>
 				</div>
 				<div>
 					Speed
-					<input type="range" value={this.state.speed} min="0" max="100" onChange={(e) => (this.setState({ speed: e.target.value }))}/>
+					<input type="range" value={this.state.speed} min="0" max="100" onChange={(e) => (this.setState({ speed: e.target.value }))} />
+				</div>
+				<div>
+					<button className="controlButton" type="button" onTouchStart={() => this.sendCarCommand('forward')} onTouchEnd={() => this.sendCarCommand('stop')}>Forward</button></div>
+				<div>
+					<button className="controlButton2" type="button" onTouchStart={() => this.sendCarCommand('left')} onTouchEnd={() => this.sendCarCommand('stop')}>Left</button>
+					<button className="controlButton2" type="button" onTouchStart={() => this.sendCarCommand('right')} onTouchEnd={() => this.sendCarCommand('stop')}>Right</button>
+				</div>
+				<div>
+					<button className="controlButton" type="button" onTouchStart={() => this.sendCarCommand('backward')} onTouchEnd={() => this.sendCarCommand('stop')}>Backward</button>
 				</div>
 				<canvas ref={this.canvas} />
 			</main>

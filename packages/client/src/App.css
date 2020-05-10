@@ -2,3 +2,14 @@
   width: 100%;
   background-color: #000;
 }
+
+.controlButton {
+  width: 100px;
+  height: 50px;
+  margin-left: 100px;
+}
+.controlButton2 {
+  width: 100px;
+  height: 50px;
+  margin-right: 100px;
+}
