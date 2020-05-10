@@ -3,7 +3,7 @@ import { Gpio } from 'pigpio';
 
 pigpio.configureSocketPort(8082);
 
-const PWM_FREQUENCY = 20000;
+const PWM_FREQUENCY = 4000;
 
 export class Motor {
 
