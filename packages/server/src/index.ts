@@ -8,6 +8,7 @@ import cors from 'cors';
 const app = express();
 const server = new Server(app);
 const io = socket(server);
+io.origins('*:*');
 app.use(cors());
 app.use(apiRouter);
 socketRouter(io);
