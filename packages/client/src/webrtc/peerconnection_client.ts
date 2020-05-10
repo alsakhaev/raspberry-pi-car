@@ -3,12 +3,12 @@ import { forceChosenVideoCodec } from './sdputils';
 
 export class PeerConnectionClient {
     pcConfig_: { iceServers: { urls: string; }[]; };
-    pcOptions_: { optional: { DtlsSrtpKeyAgreement: boolean; }[]; };
+    pcOptions_?: { optional: { DtlsSrtpKeyAgreement: boolean; }[]; };
     messageCounter_: number;
     doSendPeerMessage_: any;
     remoteVideo_: any;
-    peerConnection_: RTCPeerConnection;
-    startTime_: number;
+    peerConnection_: RTCPeerConnection | null;
+    startTime_?: number;
     
     constructor(remoteVideo: any, doSendPeerMessage: (message: any) => void) {
         // configuration for peerconnection
@@ -54,6 +54,7 @@ export class PeerConnectionClient {
         }
         trace('ICE connection state changed to: ' + this.peerConnection_.iceConnectionState);
         if (this.peerConnection_.iceConnectionState === 'completed') {
+            if (this.startTime_)
             trace('ICE complete time: ' +
                 (window.performance.now() - this.startTime_).toFixed(0) + 'ms.');
         }
@@ -115,7 +116,7 @@ export class PeerConnectionClient {
     };
 
     setLocalSdpAndSend_(sessionDescription: any) {
-        this.peerConnection_.setLocalDescription(sessionDescription)
+        this.peerConnection_?.setLocalDescription(sessionDescription)
             .then(trace.bind(null, 'Set local session description success.'))
             .catch(this.onError_.bind(this, 'setLocalDescription'));
 
@@ -131,12 +132,12 @@ export class PeerConnectionClient {
             var sdp_returned = forceChosenVideoCodec(dataJson.sdp, 'H264/90000');
             dataJson.sdp = sdp_returned;
 
-            this.peerConnection_.setRemoteDescription(new RTCSessionDescription(dataJson))
+            this.peerConnection_?.setRemoteDescription(new RTCSessionDescription(dataJson))
                 .then(trace.bind(null, 'Set session description success.'))
                 .catch(this.onError_.bind(this, 'setRemoteDescription'));
 
             trace('Sending answer to peer.');
-            this.peerConnection_.createAnswer()
+            this.peerConnection_?.createAnswer()
                 .then(this.setLocalSdpAndSend_.bind(this))
                 .catch(this.onError_.bind(this, 'createAnswer'));
         }
@@ -146,7 +147,7 @@ export class PeerConnectionClient {
                 sdpMid: dataJson.id,
                 candidate: dataJson.candidate
             });
-            this.peerConnection_.addIceCandidate(ice_candidate)
+            this.peerConnection_?.addIceCandidate(ice_candidate)
                 .then(trace.bind(null, 'Remote candidate added successfully.'))
                 .catch(this.onError_.bind(this, 'addIceCandidate'));
         }

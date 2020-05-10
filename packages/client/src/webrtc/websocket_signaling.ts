@@ -4,8 +4,8 @@ import { trace } from './common';
 export class WebSocketSignalingChannel {
     remoteVideo_: any;
     wsPath_: any;
-    websocket_: WebSocket;
-    peerConnectionClient_: PeerConnectionClient;
+    websocket_?: WebSocket;
+    peerConnectionClient_?: PeerConnectionClient | null;
 
     constructor(remoteVideo: any, wsPath: string) {
         this.remoteVideo_ = remoteVideo;
@@ -24,14 +24,14 @@ export class WebSocketSignalingChannel {
     };
 
     onWebSocketOpen_(event: Event) {
-        trace("Websocket connnected: " + this.websocket_.url);
+        trace("Websocket connnected: " + this.websocket_?.url);
         this.doSignalingRegister();
     };
 
     onWebSocketClose_(event: CloseEvent) {
         trace("Websocket Disconnected");
         this.doSignalingDisconnnect();
-        this.peerConnectionClient_.close();
+        this.peerConnectionClient_?.close();
         this.peerConnectionClient_ = null;
     };
 
@@ -40,20 +40,20 @@ export class WebSocketSignalingChannel {
 
         var dataJson = JSON.parse(event.data);
         if (dataJson["cmd"] == "send") {
-            this.peerConnectionClient_.onReceivePeerMessage(dataJson["msg"]);
+            this.peerConnectionClient_?.onReceivePeerMessage(dataJson["msg"]);
         }
     };
 
-    onWebSocketError_(event: MessageEvent) {
-        trace("An error occured while connecting : " + event.data);
+    onWebSocketError_(event: Event) {
+        trace("An error occured while connecting", event);
         // TODO: need error handling
     };
 
     webSocketSendMessage(message: string) {
-        if (this.websocket_.readyState == WebSocket.OPEN ||
-            this.websocket_.readyState == WebSocket.CONNECTING) {
+        if (this.websocket_?.readyState == WebSocket.OPEN ||
+            this.websocket_?.readyState == WebSocket.CONNECTING) {
             trace("C --> WSS: " + message);
-            this.websocket_.send(message);
+            this.websocket_?.send(message);
             return true;
         }
         trace("failed to send websocket message :" + message);
@@ -101,8 +101,8 @@ export class WebSocketSignalingChannel {
     };
 
     doSignalingDisconnnect() {
-        if (this.websocket_.readyState == 1) {
-            this.websocket_.close();
+        if (this.websocket_?.readyState == 1) {
+            this.websocket_?.close();
         };
     };
 

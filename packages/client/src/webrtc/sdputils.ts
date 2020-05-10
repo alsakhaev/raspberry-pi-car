@@ -53,13 +53,13 @@ export function maybePreferCodec(sdp: string, type: string, dir: string, codec: 
 
 // Find the line in sdpLines that starts with |prefix|, and, if specified,
 // contains |substr| (case-insensitive search).
-export function findLine(sdpLines, prefix, substr) {
+export function findLine(sdpLines: any, prefix: any, substr: any) {
 	return findLineInRange(sdpLines, 0, -1, prefix, substr);
 }
 
 // Find the line in sdpLines[startLine...endLine - 1] that starts with |prefix|
 // and, if specified, contains |substr| (case-insensitive search).
-export function findLineInRange(sdpLines, startLine, endLine, prefix, substr) {
+export function findLineInRange(sdpLines: any, startLine: any, endLine: any, prefix: any, substr: any) {
 	var realEndLine = endLine !== -1 ? endLine : sdpLines.length;
 	for (var i = startLine; i < realEndLine; ++i) {
 		if (sdpLines[i].indexOf(prefix) === 0) {
@@ -73,14 +73,14 @@ export function findLineInRange(sdpLines, startLine, endLine, prefix, substr) {
 }
 
 // Gets the codec payload type from an a=rtpmap:X line.
-export function getCodecPayloadType(sdpLine) {
+export function getCodecPayloadType(sdpLine: any) {
 	var pattern = new RegExp('a=rtpmap:(\\d+) \\w+\\/\\d+');
 	var result = sdpLine.match(pattern);
 	return (result && result.length === 2) ? result[1] : null;
 }
 
 // Returns a new m= line with the specified codec as the first one.
-export function setDefaultCodec(mLine, payload) {
+export function setDefaultCodec(mLine: any, payload: any) {
 	var elements = mLine.split(' ');
 
 	// Just copy the first three parameters; codec order starts on fourth.
@@ -97,7 +97,7 @@ export function setDefaultCodec(mLine, payload) {
 }
 
 
-export function setDefaultCodecAndRemoveOthers(sdpLines, mLine, payload) {
+export function setDefaultCodecAndRemoveOthers(sdpLines: any, mLine: any, payload: any) {
 	var elements = mLine.split(' ');
 
 	// Just copy the first three parameters; codec order starts on fourth.
@@ -122,7 +122,7 @@ export function setDefaultCodecAndRemoveOthers(sdpLines, mLine, payload) {
 	return newLine.join(' ');
 }
 
-export function RemoveLineInRange(sdpLines, startLine, endLine, prefix, substr) {
+export function RemoveLineInRange(sdpLines: any, startLine: any, endLine: any, prefix: any, substr: any) {
 	var realEndLine = endLine !== -1 ? endLine : sdpLines.length;
 	for (var i = startLine; i < realEndLine; ++i) {
 		if (sdpLines[i].indexOf(prefix) === 0) {

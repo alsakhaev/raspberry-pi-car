@@ -2,17 +2,16 @@ import * as React from 'react';
 import io from 'socket.io-client';
 //import WSAvcPlayer from 'h264-live-player';
 import { WebSocketSignalingChannel } from './webrtc/websocket_signaling';
-import './scss/app';
 
 const hostname = document.location.hostname;
-const carWsApi = `ws://${hostname}:8080`;
+const carWsApi = `ws://${hostname}:8081`;
 const cameraWsApi = `ws://${hostname}:8889/rws/ws`
 
-class App extends React.Component<IAppProps, IAppState> {
+class App extends React.Component<IAppProps, any> {
 
 	private canvas = React.createRef<HTMLCanvasElement>();
 	private video = React.createRef<HTMLVideoElement>();
-	private wsSignalingChannel: WebSocketSignalingChannel;
+	private wsSignalingChannel?: WebSocketSignalingChannel;
 	private socket: SocketIOClient.Socket;
 
 	private keyBuffer: { [keyCode: string]: boolean } = {
@@ -74,27 +73,19 @@ class App extends React.Component<IAppProps, IAppState> {
 	}
 
 	async componentDidMount() {
-
-		// const uri = `ws://${document.location.hostname}:8081`;
-		// const wsavc = new WSAvcPlayer(this.canvas.current, "webgl", 1, 35);
-		// wsavc.connect(uri);
-
-		// this.wsavc = wsavc;
-
 		this.wsSignalingChannel = new WebSocketSignalingChannel(this.video.current, cameraWsApi);	
 	}
 
 	render() {
 		return (
 			<main className="container my-5">
-				{/* <h1 className="text-primary text-center">Hello {this.state.name}!</h1> */}
 				<div>
 					<video className="video" ref={this.video} autoPlay playsInline muted ></video>
 				</div>
 
 				<div>
-					<button type="button" onClick={() => this.wsSignalingChannel.doSignalingConnect()}>Connect</button>
-					<button type="button" onClick={() => this.wsSignalingChannel.doSignalingDisconnnect()}>Disconnect</button>
+					<button type="button" onClick={() => this.wsSignalingChannel?.doSignalingConnect()}>Connect</button>
+					<button type="button" onClick={() => this.wsSignalingChannel?.doSignalingDisconnnect()}>Disconnect</button>
 				</div>
 				<canvas ref={this.canvas} />
 			</main>
