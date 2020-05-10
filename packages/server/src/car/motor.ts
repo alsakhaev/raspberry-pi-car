@@ -1,5 +1,4 @@
-import { Gpio } from 'onoff';
-//import { Gpio } from './gpioFake';
+import { Gpio } from 'pigpio';
 
 export class Motor {
 
@@ -7,28 +6,28 @@ export class Motor {
     private _backwardPin: Gpio;
     private _pwmPin: Gpio;
 
-    constructor(forwardPin: number, backwardPin: number, pwmPin: number) { 
-        this._forwardPin = new Gpio(forwardPin, 'out');
-        this._backwardPin = new Gpio(backwardPin, 'out');
-        this._pwmPin = new Gpio(pwmPin, 'out');
+    constructor(forwardPin: number, backwardPin: number, pwmPin: number) {
+        this._forwardPin = new Gpio(forwardPin, { mode: Gpio.OUTPUT });
+        this._backwardPin = new Gpio(backwardPin, { mode: Gpio.OUTPUT });
+        this._pwmPin = new Gpio(pwmPin, { mode: Gpio.OUTPUT });
         this.stop();
     }
 
     forward(speed: number = 100) {
-        this._pwmPin.writeSync(1);
-        this._forwardPin.writeSync(1);
-        this._backwardPin.writeSync(0);
+        this._pwmPin.digitalWrite(1);
+        this._forwardPin.digitalWrite(1);
+        this._backwardPin.digitalWrite(0);
     }
 
     backward(speed: number = 100) {
-        this._pwmPin.writeSync(1);
-        this._forwardPin.writeSync(0);
-        this._backwardPin.writeSync(1);
+        this._pwmPin.digitalWrite(1);
+        this._forwardPin.digitalWrite(0);
+        this._backwardPin.digitalWrite(1);
     }
 
     stop() {
-        this._pwmPin.writeSync(0);
-        this._forwardPin.writeSync(0);
-        this._backwardPin.writeSync(0);
+        this._pwmPin.digitalWrite(0);
+        this._forwardPin.digitalWrite(0);
+        this._backwardPin.digitalWrite(0);
     }
 }
