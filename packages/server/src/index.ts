@@ -3,10 +3,12 @@ import apiRouter from './routes';
 import socket from 'socket.io';
 import { Server } from 'http';
 import { socket as socketRouter } from './socket';
+import cors from 'cors';
 
 const app = express();
 const server = new Server(app);
 const io = socket(server);
+app.use(cors());
 app.use(apiRouter);
 socketRouter(io);
 
