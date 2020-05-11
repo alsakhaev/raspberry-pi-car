@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import { WebSocketSignalingChannel } from './webrtc/websocket_signaling';
 import './App.css';
 
-const hostname = '192.168.100.221'; //document.location.hostname;
+const hostname = document.location.hostname;
 const carWsApi = `ws://${hostname}:8081`;
 const cameraWsApi = `ws://${hostname}:8889/rws/ws`
 
