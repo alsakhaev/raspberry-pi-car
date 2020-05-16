@@ -68,7 +68,13 @@ For external remote control via Internet, probably you will need to configure po
 * Raspberry Pi 3B+
 * Raspberry Pi Camera Module v2
 * L298N Dual H-bridge Motor Driver Board
-* 4WD Car Platform
+* 4WD Car Platform with 4 Gearmotors and Wheels
+* Ultrasonic Distance Sensor HC-SR04
+* Xiamoi Mi Power Bank 2S 10000 mAh (5V/2.4A each USB port)
+
+### Wiring Diagram
+
+![Wiring Diagram](docs/wiring_diagram.svg "Wiring Diagram")
 
 ### Software
 
