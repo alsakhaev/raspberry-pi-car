@@ -70,11 +70,14 @@ For external remote control via Internet, probably you will need to configure po
 * L298N Dual H-bridge Motor Driver Board
 * 4WD Car Platform with 4 Gearmotors and Wheels
 * Ultrasonic Distance Sensor HC-SR04
+* 150Ω and 300Ω resistors for voltage divider
 * Xiamoi Mi Power Bank 2S 10000 mAh (5V/2.4A each USB port)
 
 ### Wiring Diagram
 
 ![Wiring Diagram](docs/wiring_diagram.svg "Wiring Diagram")
+
+Fritzing 
 
 ### Software
 
