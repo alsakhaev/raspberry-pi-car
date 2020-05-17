@@ -77,7 +77,7 @@ For external remote control via Internet, probably you will need to configure po
 
 ![Wiring Diagram](docs/wiring_diagram.svg "Wiring Diagram")
 
-Fritzing 
+This Fritzing project is available in the documentation folder: [`docs/fritzing.fzz`](docs/fritzing.fzz)
 
 ### Software
 
