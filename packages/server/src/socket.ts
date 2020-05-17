@@ -14,5 +14,6 @@ export function socket(io: Server) {
         socket.on('car/driver/left', (speed) => car.driver.left(speed));
         socket.on('car/driver/right', (speed) => car.driver.right(speed));
         socket.on('car/driver/stop', () => car.driver.stop());
+        socket.on('car/distnace/measure', (fn) => car.distance.measure().then(d => fn(d)));        
     });
 }

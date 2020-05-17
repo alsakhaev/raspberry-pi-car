@@ -28,7 +28,8 @@ class App extends React.Component<IAppProps, any> {
 		this.state = {
 			name: null,
 			speed: 100,
-			cameraOpened: false
+			cameraOpened: false,
+			distance: 0
 		};
 
 		document.addEventListener('keydown', ({ code }) => {
@@ -78,6 +79,12 @@ class App extends React.Component<IAppProps, any> {
 		this.socket.emit(`car/driver/${cmd}`, this.state.speed);
 	}
 
+	onDistanceButtonClick() {
+		this.socket.emit('car/distnace/measure', (distance: number) => {
+			this.setState({ distance });
+		});
+	}
+
 	async componentDidMount() {
 		this.wsSignalingChannel = new WebSocketSignalingChannel(this.video.current, cameraWsApi);
 		this.wsSignalingChannel.onopen = () => this.setState({ cameraOpened: true });
@@ -99,6 +106,10 @@ class App extends React.Component<IAppProps, any> {
 				<div>
 					Speed
 					<input type="range" value={this.state.speed} min="0" max="100" onChange={(e) => (this.setState({ speed: e.target.value }))} />
+				</div>
+				<div>
+					Distance: {this.state.distance} cm 
+					<button type="button" onClick={() => this.onDistanceButtonClick()}>Measure</button>
 				</div>
 
 				<div className='circleBase rotateMode'>
